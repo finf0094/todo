@@ -1,13 +1,13 @@
 import { Component } from 'react';
 
-import './app.css'
+import './app.scss'
 
 import AppInfo from '../app-info/app-info';
 import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
 import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
-import ModalInfo from '../Modal-info/ModalInfo';
+import Modal from '../Modal-info/ModalInfo';
 
 
 
@@ -16,10 +16,10 @@ class App extends Component {
         super(props)
         this.state = {
             data: [
-                {name: "Askhat Kulush", salary: 100000, increase: false, rise: false, id: 1, showModal: false},
-                {name: "Bekzat Muratov", salary: 109000, increase: true, rise: true, id: 2, showModal: false},
-                {name: "Erbolat Muftiev", salary: 99000, increase: false, rise: false, id: 3, showModal: false},
-                {name: "Damir Telagisov", salary: 22000, increase: false, rise: false, id: 4, showModal: false},
+                {name: "Askhat Kulush", salary: 100000, increase: false, rise: false, id: 1, showModal: false, IIN: '041216550688', age: 18},
+                {name: "Bekzat Muratov", salary: 109000, increase: true, rise: true, id: 2, showModal: false, IIN: '041212443344', age: 18},
+                {name: "Erbolat Muftiev", salary: 99000, increase: false, rise: false, id: 3, showModal: false, IIN: '050423045555', age: 17},
+                {name: "Damir Telagisov", salary: 22000, increase: false, rise: false, id: 4, showModal: false, IIN: '051233431234', age: 17},
             ],
             term: '',
             filter: 'all'
@@ -93,7 +93,7 @@ class App extends Component {
             case 'rise': 
                 return items.filter(item => item.rise)
             case 'moreThen1000':
-                return items.filter(item => item.salary > 100000)
+                return items.filter(item => item.salary >= 100000)
             default:
                 return items
         }
@@ -113,39 +113,46 @@ class App extends Component {
             })
         }))
     }
-
     
-
-
 
     render() {
         const {data, term, filter} = this.state;
         const employees = this.state.data.length;
         const increasedemployees = this.state.data.filter(item => item.increase).length;
         const visibleData = this.filterPost(this.searchEmp(data, term), filter);
+        const totalAllEmployesSalary = data.map(item => {
+            const {salary} = item
+            let total = 0
+            total += salary
+            return total
+        })
 
         return (
             <div className="app">
                 
                 <AppInfo
                 employees={employees}
-                increasedemployees={increasedemployees}/>
+                increasedemployees={increasedemployees}
+                totalAllEmployesSalary={totalAllEmployesSalary}/>
 
-                <ModalInfo data={data}
-                           onToggleModal={this.onToggleModal}/>
-    
+
                 <div className="search-panel">
                     <SearchPanel
                     onUpdateSearch={this.onUpdateSearch}/>
                     <AppFilter filter={filter}
                                onFilterSelect={this.onFilterSelect}/>
                 </div>
-    
+
+                
                 <EmployeesList data={visibleData}
                                onDelete={this.deleteItem}
                                onToggleIncrease={this.onToggleIncrease}
                                onToggleRise={this.onToggleRise}
                                onToggleModal={this.onToggleModal}/>
+                <Modal data={data}
+                       onToggleModal={this.onToggleModal}
+                       className="modal"/>
+
                 <EmployeesAddForm
                     onAdd={this.addItem}/>
     
