@@ -7,6 +7,7 @@ import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
 import EmployeesList from '../employees-list/employees-list';
 import EmployeesAddForm from '../employees-add-form/employees-add-form';
+import ModalInfo from '../Modal-info/ModalInfo';
 
 
 
@@ -15,10 +16,10 @@ class App extends Component {
         super(props)
         this.state = {
             data: [
-                {name: "Askhat", salary: 800, increase: false, rise: false, id: 1},
-                {name: "Gulzhahan", salary: 109000, increase: true, rise: true, id: 2},
-                {name: "Kulush", salary: 2000, increase: false, rise: false, id: 3},
-                {name: "Serikova", salary: 2000, increase: false, rise: false, id: 4},
+                {name: "Askhat Kulush", salary: 100000, increase: false, rise: false, id: 1, showModal: false},
+                {name: "Bekzat Muratov", salary: 109000, increase: true, rise: true, id: 2, showModal: false},
+                {name: "Erbolat Muftiev", salary: 99000, increase: false, rise: false, id: 3, showModal: false},
+                {name: "Damir Telagisov", salary: 22000, increase: false, rise: false, id: 4, showModal: false},
             ],
             term: '',
             filter: 'all'
@@ -92,7 +93,7 @@ class App extends Component {
             case 'rise': 
                 return items.filter(item => item.rise)
             case 'moreThen1000':
-                return items.filter(item => item.salary > 1000)
+                return items.filter(item => item.salary > 100000)
             default:
                 return items
         }
@@ -101,6 +102,21 @@ class App extends Component {
     onFilterSelect = (filter) => {
         this.setState({filter})
     }
+
+    onToggleModal = (id) => {
+        this.setState(({data}) => ({
+            data: data.map(item => {
+                if(item.id === id) {
+                    return {...item, showModal: !item.showModal}
+                }
+                return item
+            })
+        }))
+    }
+
+    
+
+
 
     render() {
         const {data, term, filter} = this.state;
@@ -114,6 +130,9 @@ class App extends Component {
                 <AppInfo
                 employees={employees}
                 increasedemployees={increasedemployees}/>
+
+                <ModalInfo data={data}
+                           onToggleModal={this.onToggleModal}/>
     
                 <div className="search-panel">
                     <SearchPanel
@@ -125,7 +144,8 @@ class App extends Component {
                 <EmployeesList data={visibleData}
                                onDelete={this.deleteItem}
                                onToggleIncrease={this.onToggleIncrease}
-                               onToggleRise={this.onToggleRise}/>
+                               onToggleRise={this.onToggleRise}
+                               onToggleModal={this.onToggleModal}/>
                 <EmployeesAddForm
                     onAdd={this.addItem}/>
     
