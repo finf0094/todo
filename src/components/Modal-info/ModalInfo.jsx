@@ -1,14 +1,15 @@
 import s from './ModalInfo.module.scss'
 
-function Modal({data, onToggleModal}) {
+function Modal({ data, onToggleModal }) {
 
     const elements = data.map(elem => {
-        const {id, ...itemProps} = elem
+        const { id, photo, ...itemProps } = elem
         return (
             <ModalInfo key={id}
-                       {...itemProps}
-                       onToggleModal={onToggleModal}
-                       id={id}/>
+                {...itemProps}
+                onToggleModal={onToggleModal}
+                id={id}
+                photo={photo} />
         )
     })
 
@@ -19,7 +20,7 @@ function Modal({data, onToggleModal}) {
     )
 }
 
-function ModalInfo({name, onToggleModal, id, showModal, IIN, age, salary}) {
+function ModalInfo({ name, onToggleModal, id, showModal, IIN, age, salary, photo }) {
     return (
         <div className={showModal ? s.showModal : s.modal}>
             <div className={s.modalContent}>
@@ -40,6 +41,10 @@ function ModalInfo({name, onToggleModal, id, showModal, IIN, age, salary}) {
                 <div className={s.employeeInfo}>
                     <span>Жалакысы: </span>
                     <input className={s.cleanSlide} id="salary" type="text" defaultValue={salary + " KZT"} /><label for="salary">Жалакысы</label>
+                </div>
+                <div className={s.employeeInfo}>
+                    <span>Фото: </span>
+                    <img src={photo} alt='12' width='200px' height='200px'/>
                 </div>
             </div>
         </div>
