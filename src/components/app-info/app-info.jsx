@@ -7,7 +7,7 @@ const AppInfo = ({employees, increasedemployees, totalAllEmployesSalary}) => {
             <h1>Қызметкерлерді есепке алу</h1>
             <h2>Қызметкерлердің жалпы саны: {employees}</h2>
             <h2>Сыйлық алынады: {increasedemployees}</h2>
-            <h2>Общий беретин акша: {totalAllEmployesSalary}</h2>
+            <h2>Общий беретин акша: {}</h2>
         </div>
     )
 }
